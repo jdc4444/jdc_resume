@@ -18,8 +18,8 @@
     .section-label { font-size:.72rem; font-weight:400; letter-spacing:.09em; text-transform:uppercase; }
     .nav-filters { min-width:0; display:flex; flex:0 0 auto; align-items:center; gap:clamp(.6rem,1.2vw,1.2rem); padding:.62rem 0; overflow-x:auto; scrollbar-width:none; }
     .nav-filters::-webkit-scrollbar { display:none; }
-    .nav-filters-left { margin-right:auto; }
-    .nav-filters-right { margin-left:auto; }
+    .nav-filters-left { flex:1 1 auto; margin-right:auto; }
+    .nav-filters-right { flex:0 0 auto; margin-left:auto; }
     .filter-set { display:flex; flex:0 0 auto; align-items:center; gap:.15rem; }
     .sound-toggle { flex:0 0 auto; margin-left:0; padding-left:.8rem; border-left:1px solid var(--line); white-space:nowrap; }
     .sound-toggle { width:2.25rem; height:1.9rem; display:grid; place-items:center; padding:.35rem .1rem .35rem .7rem; }
@@ -151,7 +151,9 @@
       <div class="filter-set" role="group" aria-label="Filter by Jos Diaz Contreras role">
         <button class="active" type="button" data-filter="all">All</button>
         <button type="button" data-filter="director">Director</button>
-        <button type="button" data-filter="creative">Art Director</button>
+        <button type="button" data-filter="producer">Producer</button>
+        <button type="button" data-filter="creative">Creative Director</button>
+        <button type="button" data-filter="editor">Editor</button>
       </div>
     </div>
     <div class="nav-filters nav-filters-right">
@@ -221,9 +223,9 @@
     const hasPress = project => project.fields.length > 0;
     const isJos = name => /\bjos(?:e|é)?\s+diaz\s+contreras\b/i.test(String(name || ""));
     const hasJosRole = (project, roleTest) => project.credits.some(([role, name]) => isJos(name) && roleTest(String(role || "")));
-    // These projects are presented as Creative / Art Director work in the role navigation even
-    // where their detailed credit line remains Director. This changes only
-    // portfolio classification; the source-faithful project credits stay put.
+    // The Creative Director navigation includes Creative Director, Art Director,
+    // Graphics Director, and combined Art & Animation Director credits. These
+    // overrides change only portfolio classification; detailed credits stay put.
     const creativeRoleOverrides = new Set([
       "/working-project-38",
       "/mtv-vote-early",
