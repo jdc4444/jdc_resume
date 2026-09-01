@@ -1,0 +1,8 @@
+#EXTM3U
+#EXT-X-VERSION:6
+#EXT-X-TARGETDURATION:40
+#EXT-X-MEDIA-SEQUENCE:0
+#EXT-X-INDEPENDENT-SEGMENTS
+#EXTINF:39.520000,
+https://github.com/jdc4444/jdc_resume/releases/download/safari-hls-1/lipstick-day-000.ts
+#EXT-X-ENDLIST

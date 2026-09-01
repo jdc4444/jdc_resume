@@ -1,0 +1,12 @@
+#EXTM3U
+#EXT-X-VERSION:6
+#EXT-X-TARGETDURATION:63
+#EXT-X-MEDIA-SEQUENCE:0
+#EXT-X-INDEPENDENT-SEGMENTS
+#EXTINF:62.729333,
+https://github.com/jdc4444/jdc_resume/releases/download/safari-hls-1/happy-film-000.ts
+#EXTINF:60.935878,
+https://github.com/jdc4444/jdc_resume/releases/download/safari-hls-1/happy-film-001.ts
+#EXTINF:3.378600,
+https://github.com/jdc4444/jdc_resume/releases/download/safari-hls-1/happy-film-002.ts
+#EXT-X-ENDLIST

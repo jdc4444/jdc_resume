@@ -1,0 +1,10 @@
+#EXTM3U
+#EXT-X-VERSION:6
+#EXT-X-TARGETDURATION:61
+#EXT-X-MEDIA-SEQUENCE:0
+#EXT-X-INDEPENDENT-SEGMENTS
+#EXTINF:61.019289,
+https://github.com/jdc4444/jdc_resume/releases/download/safari-hls-1/superstay-000.ts
+#EXTINF:27.988156,
+https://github.com/jdc4444/jdc_resume/releases/download/safari-hls-1/superstay-001.ts
+#EXT-X-ENDLIST

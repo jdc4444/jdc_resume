@@ -1,0 +1,8 @@
+#EXTM3U
+#EXT-X-VERSION:6
+#EXT-X-TARGETDURATION:15
+#EXT-X-MEDIA-SEQUENCE:0
+#EXT-X-INDEPENDENT-SEGMENTS
+#EXTINF:15.015000,
+https://github.com/jdc4444/jdc_resume/releases/download/safari-hls-1/loteria-000.ts
+#EXT-X-ENDLIST
