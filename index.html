@@ -202,7 +202,7 @@
             <figure class="about-film">
               <div class="gallery-frame gallery-feature-frame gallery-sound-frame about-film-frame" tabindex="0" aria-label="Bon Iver Day One behind-the-scenes film; hover or focus for sound" data-media-kind="video" data-media-id="bon-iver-day-one-bts" data-presentation="standalone" data-segment-index="1" data-segment-count="1" data-project-route="/about" data-project-title="About Jos Diaz Contreras">
                 <img class="loop-backdrop" src="media/project-galleries/website-videos/c1e56f2c-33a3-4fb1-b221-a7c964548622-poster.webp?v=1788077705529378462" alt="" aria-hidden="true" draggable="false">
-                <video class="gallery-video gallery-feature-player" muted playsinline preload="none" poster="media/project-galleries/website-videos/c1e56f2c-33a3-4fb1-b221-a7c964548622-poster.webp?v=1788077705529378462" data-src="https://github.com/jdc4444/jdc_resume/releases/download/media-1/b2f3de1860ad5c6e-c1e56f2c-33a3-4fb1-b221-a7c964548622.mp4?v=1787967744102384956&deliveryRevision=20260901-all-clips-1" aria-label="Bon Iver Day One behind-the-scenes film"></video>
+                <video class="gallery-video gallery-feature-player" muted autoplay playsinline preload="none" poster="media/project-galleries/website-videos/c1e56f2c-33a3-4fb1-b221-a7c964548622-poster.webp?v=1788077705529378462" data-src="https://github.com/jdc4444/jdc_resume/releases/download/media-1/b2f3de1860ad5c6e-c1e56f2c-33a3-4fb1-b221-a7c964548622.mp4?v=1787967744102384956&deliveryRevision=20260901-all-clips-1" aria-label="Bon Iver Day One behind-the-scenes film"></video>
               </div>
               <figcaption class="about-film-caption">Bon Iver — Day One <span>Behind-the-scenes film by Kylin Solano</span></figcaption>
             </figure>
@@ -525,6 +525,7 @@
       if (existing) existing.destroy();
       hlsPlayers.delete(video);
       video.removeAttribute("src");
+      video.querySelectorAll("source").forEach(source => source.remove());
       video.load();
     }
     function loadVideo(video, requestedSource = video.dataset.src) {
@@ -534,7 +535,10 @@
       destroyVideoSource(video);
       video.dataset.loadedSource = source;
       if (!/\.m3u8(?:$|\?)/i.test(source)) {
-        video.src = source;
+        const sourceElement = document.createElement("source");
+        sourceElement.src = source;
+        sourceElement.type = "video/mp4";
+        video.appendChild(sourceElement);
         video.load();
         return Promise.resolve(video);
       }
@@ -1193,13 +1197,13 @@
               const soundAttributes = hasAudio
                 ? ` tabindex="0" aria-label="${escapeHTML(hoverLabel)}"`
                 : ` aria-label="${escapeHTML(mediaLabel)}"`;
-              return `<figure class="gallery-frame gallery-feature-frame${soundClass}" style="${style}"${soundAttributes} ${dataAttributes}>${backdrop}<video class="gallery-video gallery-feature-player" muted playsinline preload="none"${poster} data-src="${mediaSource}" aria-label="${escapeHTML(mediaLabel)}"></video>${caption}</figure>`;
+              return `<figure class="gallery-frame gallery-feature-frame${soundClass}" style="${style}"${soundAttributes} ${dataAttributes}>${backdrop}<video class="gallery-video gallery-feature-player" muted autoplay playsinline preload="none"${poster} data-src="${mediaSource}" aria-label="${escapeHTML(mediaLabel)}"></video>${caption}</figure>`;
             }
             const clipSoundClass = hasAudio ? " gallery-sound-frame" : "";
             const clipSoundAttributes = hasAudio
               ? ` tabindex="0" aria-label="${escapeHTML(`${mediaLabel}; hover or focus for sound`)}"`
               : "";
-            return `<figure class="gallery-frame${clipSoundClass}" style="${style}"${clipSoundAttributes} ${dataAttributes}>${backdrop}<video class="gallery-video" muted playsinline preload="none"${poster} data-src="${mediaSource}" aria-label="${escapeHTML(mediaLabel)}"></video>${caption}</figure>`;
+            return `<figure class="gallery-frame${clipSoundClass}" style="${style}"${clipSoundAttributes} ${dataAttributes}>${backdrop}<video class="gallery-video" muted autoplay playsinline preload="none"${poster} data-src="${mediaSource}" aria-label="${escapeHTML(mediaLabel)}"></video>${caption}</figure>`;
           }
           return `<figure class="gallery-frame" style="${style}"><img src="${escapeHTML(item.src)}" alt="${escapeHTML(project.title)} website image ${index + 1}" loading="lazy" decoding="async"></figure>`;
         }).join("");
