@@ -125,14 +125,27 @@
       .project-gallery.gallery-odd-over-three > .gallery-frame:nth-child(3) { display:none; }
     }
     @media (max-width:560px) {
-      .topnav { gap:.45rem; }
+      .topnav { display:grid; grid-template-columns:minmax(0,1fr) auto; align-items:start; gap:0; }
       .nav-filters { gap:.35rem; }
+      .nav-filters-left { grid-column:1 / -1; grid-row:1; width:100%; margin:0; padding:.45rem 0 .5rem; overscroll-behavior-inline:contain; scroll-snap-type:x proximity; }
+      .nav-filters-left .filter-set { display:grid; grid-template-columns:repeat(4,max-content); grid-template-rows:auto auto; gap:.22rem 0; width:max-content; min-width:100%; }
+      .nav-filters-left [data-filter="all"] { grid-column:1; grid-row:1; justify-self:start; }
+      .nav-filters-left [data-filter="director"] { grid-column:1; grid-row:2; }
+      .nav-filters-left [data-filter="producer"] { grid-column:2; grid-row:2; }
+      .nav-filters-left [data-filter="creative"] { grid-column:3; grid-row:2; }
+      .nav-filters-left [data-filter="editor"] { grid-column:4; grid-row:2; }
+      .nav-filters-left button { padding:.4rem .25rem; scroll-snap-align:start; }
+      .nav-filters-right { grid-column:2; grid-row:1; z-index:1; align-self:start; margin:0; padding:.45rem 0; background:var(--nav); }
       .sound-toggle { padding-left:.45rem; }
       .credit-grid { grid-template-columns:1fr; }
       .project-gallery, .project-gallery.gallery-images { grid-template-columns:1fr; }
       .about-film-caption { display:block; }
       .about-film-caption span { display:block; margin-top:.2rem; }
       .page-footer { flex-direction:column; }
+    }
+    @media (max-width:340px) {
+      .nav-filters-left button { padding-inline:.2rem; font-size:.6rem; }
+      .nav-filters-left [data-filter="creative"] { max-width:4.4rem; white-space:normal; line-height:1.05; }
     }
     @media print {
       .topnav { display:none; }
