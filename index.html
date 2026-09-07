@@ -6,11 +6,18 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="description" content="Selected project credits, press, awards, recognition, and quotes for Jos Diaz Contreras.">
   <title>Jos Diaz Contreras — Credits, Press &amp; Recognition</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@400;600&display=swap" rel="stylesheet">
+  <script>try { if (localStorage.getItem('jdc-typeface') === 'raleway') document.documentElement.dataset.typeface = 'raleway'; } catch {}</script>
   <style>
     :root { --paper:#111; --ink:#f3f3ef; --muted:#73736e; --line:rgba(5,5,5,.2); --nav:rgba(243,243,239,.94); --underline:rgba(5,5,5,.38); --page:110rem; color-scheme:light; }
     * { box-sizing:border-box; }
     html { scroll-behavior:smooth; }
     body { margin:0; background:var(--ink); color:var(--paper); font-family:Arial,Helvetica,sans-serif; line-height:1.4; -webkit-font-smoothing:antialiased; }
+    html[data-typeface="raleway"] body { font-family:Raleway,Arial,Helvetica,sans-serif; }
+    html[data-typeface="raleway"] .jdc-video-controls button { font-family:Raleway,Arial,sans-serif; }
+    .typeface-toggle { white-space:nowrap; }
     a { color:inherit; text-decoration-color:var(--underline); text-underline-offset:.22em; }
     a:hover, a:focus-visible { opacity:.62; text-decoration-color:currentColor; }
     .shell { width:min(var(--page),100%); margin:0 auto; }
@@ -173,6 +180,7 @@
       <div class="filter-set">
         <button type="button" data-filter="about">About</button>
       </div>
+      <button class="typeface-toggle" id="typefaceToggle" type="button" aria-label="Use Raleway font" aria-pressed="false">Type: Original</button>
       <button class="sound-toggle" id="soundToggle" type="button" aria-label="Turn sound on" aria-pressed="false" title="Turn sound on">
         <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
           <path d="M4 9v6h4l5 4V5L8 9H4z"></path>
@@ -1211,6 +1219,25 @@
     });
     setGlobalSound(false);
     render();
+  </script>
+  <script id="typeface-toggle-script">
+    (() => {
+      const button = document.getElementById('typefaceToggle');
+      const root = document.documentElement;
+      function renderTypeface() {
+        const raleway = root.dataset.typeface === 'raleway';
+        button.textContent = raleway ? 'Type: Raleway' : 'Type: Original';
+        button.setAttribute('aria-pressed', String(raleway));
+        button.setAttribute('aria-label', raleway ? 'Use original fonts' : 'Use Raleway font');
+      }
+      button.addEventListener('click', () => {
+        const next = root.dataset.typeface === 'raleway' ? 'original' : 'raleway';
+        root.dataset.typeface = next;
+        try { localStorage.setItem('jdc-typeface', next); } catch {}
+        renderTypeface();
+      });
+      renderTypeface();
+    })();
   </script>
 </body>
 </html>
