@@ -9,23 +9,16 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@400;500;600&display=swap" rel="stylesheet">
-  <script>try { if (localStorage.getItem('jdc-typeface') === 'raleway') document.documentElement.dataset.typeface = 'raleway'; } catch {}</script>
   <style>
     :root { --paper:#111; --ink:#f3f3ef; --muted:#73736e; --line:rgba(5,5,5,.2); --nav:rgba(243,243,239,.94); --underline:rgba(5,5,5,.38); --page:110rem; color-scheme:light; }
     * { box-sizing:border-box; }
     html { scroll-behavior:auto; }
-    body { margin:0; background:var(--ink); color:var(--paper); font-family:Arial,Helvetica,sans-serif; line-height:1.4; -webkit-font-smoothing:antialiased; }
-    html[data-typeface="raleway"] body { font-family:Raleway,Arial,Helvetica,sans-serif; font-weight:500; }
-    html[data-typeface="raleway"] .section-label,
-    html[data-typeface="raleway"] .about-heading h1,
-    html[data-typeface="raleway"] h2 { font-weight:500; }
-    html[data-typeface="raleway"] .jdc-video-controls button { font-family:Raleway,Arial,sans-serif; }
-    .typeface-toggle { white-space:nowrap; }
+    body { margin:0; background:var(--ink); color:var(--paper); font-family:Raleway,Arial,Helvetica,sans-serif; font-weight:500; line-height:1.4; -webkit-font-smoothing:antialiased; }
     a { color:inherit; text-decoration-color:var(--underline); text-underline-offset:.22em; }
     a:hover, a:focus-visible { opacity:.62; text-decoration-color:currentColor; }
     .shell { width:min(var(--page),100%); margin:0 auto; }
     .topnav { position:sticky; z-index:50; top:0; display:flex; align-items:center; justify-content:space-between; gap:1rem; padding:0 clamp(1.25rem,2.2vw,2.75rem); background:var(--nav); border-bottom:1px solid var(--line); backdrop-filter:blur(16px); }
-    .section-label { font-size:.72rem; font-weight:400; letter-spacing:.09em; text-transform:uppercase; }
+    .section-label { font-size:.72rem; font-weight:500; letter-spacing:.09em; text-transform:uppercase; }
     .nav-filters { min-width:0; display:flex; flex:0 0 auto; align-items:center; gap:clamp(.6rem,1.2vw,1.2rem); padding:.62rem 0; overflow-x:auto; scrollbar-width:none; }
     .nav-filters::-webkit-scrollbar { display:none; }
     .nav-filters-left { flex:1 1 auto; margin-right:auto; }
@@ -44,7 +37,7 @@
     .about-layout { display:grid; grid-template-columns:minmax(16rem,32%) minmax(23rem,42%) minmax(14rem,26%); min-height:calc(100vh - 3.2rem); }
     .about-heading { padding:clamp(1.75rem,2.6vw,3.25rem) clamp(1.5rem,2.6vw,3rem) clamp(3rem,7vw,8rem) 0; }
     .about-kicker { display:block; margin-bottom:1rem; color:var(--muted); font-size:.7rem; letter-spacing:.09em; text-transform:uppercase; }
-    .about-heading h1 { max-width:14ch; margin:0; font-size:clamp(1.7rem,2.7vw,3.1rem); font-weight:400; letter-spacing:-.045em; line-height:.95; overflow-wrap:anywhere; }
+    .about-heading h1 { max-width:14ch; margin:0; font-size:clamp(1.7rem,2.7vw,3.1rem); font-weight:500; letter-spacing:-.045em; line-height:.95; overflow-wrap:anywhere; }
     .about-copy { min-width:0; padding:clamp(1.75rem,2.8vw,3.5rem); border-left:1px solid var(--line); }
     .about-copy p { max-width:44em; margin:0 0 1.35em; font-size:clamp(.88rem,.94vw,1.02rem); letter-spacing:-.01em; line-height:1.46; }
     .about-copy p:last-child { margin-bottom:0; }
@@ -74,7 +67,7 @@
     .project-media.player-active .media-play-trigger { display:none; }
     .jdc-video-controls { position:absolute; z-index:5; left:16px; right:16px; bottom:14px; display:flex; align-items:center; gap:10px; opacity:0; visibility:hidden; transition:opacity 160ms ease,visibility 160ms ease; }
     .project-media.player-active:hover .jdc-video-controls, .project-media.player-active:focus-within .jdc-video-controls { opacity:1; visibility:visible; }
-    .jdc-video-controls button { flex:0 0 auto; padding:8px 11px; border:0; border-radius:999px; background:rgba(0,0,0,.58); color:#fff; font:600 11px/1 system-ui,sans-serif; letter-spacing:0; text-transform:none; backdrop-filter:blur(10px); }
+    .jdc-video-controls button { flex:0 0 auto; padding:8px 11px; border:0; border-radius:999px; background:rgba(0,0,0,.58); color:#fff; font:600 11px/1 Raleway,Arial,sans-serif; letter-spacing:0; text-transform:none; backdrop-filter:blur(10px); }
     .jdc-video-controls button:hover, .jdc-video-controls button:focus-visible { border:0; background:rgba(0,0,0,.78); color:#fff; opacity:1; outline:1px solid rgba(255,255,255,.7); }
     .jdc-video-progress { position:relative; flex:1; height:18px; display:flex; align-items:center; cursor:pointer; }
     .jdc-video-progress::before { width:100%; height:3px; border-radius:999px; background:rgba(255,255,255,.35); content:""; }
@@ -99,7 +92,7 @@
     .project-meta { display:flex; flex-wrap:wrap; justify-content:flex-end; gap:.35rem; text-align:right; }
     .project-date { color:var(--paper); font-variant-numeric:tabular-nums; }
     .project-type { color:var(--paper); }
-    h2 { margin:0; font-size:clamp(2rem,4.2vw,4.9rem); font-weight:400; letter-spacing:-.055em; line-height:.9; overflow-wrap:anywhere; }
+    h2 { margin:0; font-size:clamp(2rem,4.2vw,4.9rem); font-weight:500; letter-spacing:-.055em; line-height:.9; overflow-wrap:anywhere; }
     .project-body { min-width:0; border-left:1px solid var(--line); }
     .content-section { padding:clamp(1.35rem,2vw,2.2rem); border-bottom:1px solid var(--line); }
     .content-section:last-child { border-bottom:0; }
@@ -181,7 +174,6 @@
       <div class="filter-set">
         <button type="button" data-filter="about">About</button>
       </div>
-      <button class="typeface-toggle" id="typefaceToggle" type="button" aria-label="Use Raleway font" aria-pressed="false">Type: Original</button>
       <button class="sound-toggle" id="soundToggle" type="button" aria-label="Turn sound on" aria-pressed="false" title="Turn sound on">
         <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
           <path d="M4 9v6h4l5 4V5L8 9H4z"></path>
@@ -1306,25 +1298,6 @@
     });
     setGlobalSound(false);
     render();
-  </script>
-  <script id="typeface-toggle-script">
-    (() => {
-      const button = document.getElementById('typefaceToggle');
-      const root = document.documentElement;
-      function renderTypeface() {
-        const raleway = root.dataset.typeface === 'raleway';
-        button.textContent = raleway ? 'Type: Raleway' : 'Type: Original';
-        button.setAttribute('aria-pressed', String(raleway));
-        button.setAttribute('aria-label', raleway ? 'Use original fonts' : 'Use Raleway font');
-      }
-      button.addEventListener('click', () => {
-        const next = root.dataset.typeface === 'raleway' ? 'original' : 'raleway';
-        root.dataset.typeface = next;
-        try { localStorage.setItem('jdc-typeface', next); } catch {}
-        renderTypeface();
-      });
-      renderTypeface();
-    })();
   </script>
 </body>
 </html>
