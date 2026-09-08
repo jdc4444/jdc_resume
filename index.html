@@ -280,6 +280,7 @@
     let activeGallerySoundVideo = null;
     let gallerySoundTransitionRunning = false;
     let galleryAudioUnlocked = false;
+    let preferredLeadSoundVideo = null;
     const galleryVideoRoutes = new Set([
       "/lovb-adidas",
       "/bombas-spring",
@@ -606,7 +607,7 @@
       const seconds = Number.isFinite(value) ? Math.max(0, Math.floor(value)) : 0;
       return `${Math.floor(seconds / 60)}:${String(seconds % 60).padStart(2,"0")}`;
     }
-    function autoplayEmbedUrl(source) {
+    function autoplayEmbedUrl(source, soundEnabled = globalSoundEnabled) {
       try {
         const url = new URL(source, window.location.href);
         url.searchParams.set("autoplay", "1");
@@ -615,9 +616,9 @@
           url.searchParams.set("title", "0");
           url.searchParams.set("byline", "0");
           url.searchParams.set("portrait", "0");
-          url.searchParams.set("muted", globalSoundEnabled ? "0" : "1");
+          url.searchParams.set("muted", soundEnabled ? "0" : "1");
         } else if (/youtube(?:-nocookie)?\.com$/i.test(url.hostname)) {
-          url.searchParams.set("mute", globalSoundEnabled ? "0" : "1");
+          url.searchParams.set("mute", soundEnabled ? "0" : "1");
         }
         return url.href;
       } catch (error) { return source; }
@@ -679,6 +680,29 @@
         else other.muted = true;
       });
     }
+    function preferredActiveLead() {
+      if (
+        preferredLeadSoundVideo?.isConnected &&
+        preferredLeadSoundVideo.closest(".project-media")?.classList.contains("player-active")
+      ) return preferredLeadSoundVideo;
+      return document.querySelector(
+        ".project-media.player-active:not(.player-embed) .project-loop"
+      );
+    }
+    function setLeadSound(video, enabled) {
+      video.dataset.localSoundEnabled = String(Boolean(enabled));
+      if (!enabled) {
+        video.muted = true;
+        return;
+      }
+      preferredLeadSoundVideo = video;
+      desiredGallerySoundVideo = null;
+      document.querySelectorAll(".gallery-video").forEach(resetGallerySoundVideo);
+      muteOtherAudibleMedia(video);
+      video.muted = false;
+      if (video.volume === 0) video.volume = GALLERY_SOUND_VOLUME;
+      reconcileGallerySound();
+    }
     async function reconcileGallerySound() {
       if (gallerySoundTransitionRunning) return;
       gallerySoundTransitionRunning = true;
@@ -717,6 +741,7 @@
           }
           if (activeGallerySoundVideo !== target) {
             document.querySelectorAll(".project-loop").forEach(video => { video.muted = true; });
+            setEmbedSound(false);
             activeGallerySoundVideo = target;
             target.volume = 0;
             target.muted = false;
@@ -794,9 +819,9 @@
       soundToggle.setAttribute("aria-pressed", String(globalSoundEnabled));
       soundToggle.setAttribute(
         "aria-label",
-        globalSoundEnabled ? "Mute all media" : "Turn sound on"
+        globalSoundEnabled ? "Mute all media" : "Enable gallery sound"
       );
-      soundToggle.title = globalSoundEnabled ? "Mute all media" : "Turn sound on";
+      soundToggle.title = globalSoundEnabled ? "Mute all media" : "Enable gallery sound";
       if (!globalSoundEnabled) {
         desiredGallerySoundVideo = null;
         document.querySelectorAll(".gallery-video").forEach(resetGallerySoundVideo);
@@ -809,15 +834,11 @@
         const hoveredGalleryVideo = document.querySelector(
           ".gallery-sound-frame:hover .gallery-video"
         );
-        const activeLead = document.querySelector(
-          ".project-media.player-active:not(.player-embed) .project-loop"
-        );
+        const activeLead = preferredActiveLead();
         if (hoveredGalleryVideo) {
           requestGallerySound(hoveredGalleryVideo, true);
         } else if (activeLead) {
-          muteOtherAudibleMedia(activeLead);
-          activeLead.muted = false;
-          if (activeLead.volume === 0) activeLead.volume = GALLERY_SOUND_VOLUME;
+          setLeadSound(activeLead, true);
         }
       }
       setEmbedSound(globalSoundEnabled);
@@ -840,19 +861,36 @@
           progress.setAttribute("aria-valuenow", String(Math.round(percent)));
           progress.setAttribute("aria-valuetext", `${formatTime(video.currentTime)} of ${formatTime(video.duration)}`);
         };
+        const playWithSound = async () => {
+          video.dataset.userPaused = "false";
+          setLeadSound(video, true);
+          await video.play().catch(() => {});
+          updateControls();
+        };
+        const toggleFromVideoSurface = async () => {
+          if (video.paused) {
+            await playWithSound();
+          } else if (video.muted) {
+            setLeadSound(video, true);
+            updateControls();
+          } else {
+            video.dataset.userPaused = "true";
+            video.pause();
+          }
+        };
         const activate = async () => {
           if (shell.classList.contains("player-active")) {
-            video.dataset.userPaused = "false";
-            await video.play().catch(() => {});
+            await playWithSound();
             return;
           }
           shell.classList.add("player-active");
           shell.dataset.playerState = "loading";
           video.dataset.inView = "true";
           video.dataset.userPaused = "false";
-          // A full-video click is an explicit playback gesture. Start that
-          // player with sound and keep the sitewide one-audible-video rule.
-          setGlobalSound(true);
+          // Direct playback always starts this lead with sound without
+          // enabling hover audio for every gallery video.
+          video.dataset.localSoundEnabled = "true";
+          preferredLeadSoundVideo = video;
           const playbackType = video.dataset.playbackType || "preview";
           const masterSource = video.dataset.playbackSrc || video.dataset.src;
           if (playbackType === "embed") {
@@ -862,7 +900,7 @@
             controls.setAttribute("aria-hidden", "true");
             const iframe = document.createElement("iframe");
             iframe.className = "project-player-embed";
-            iframe.src = autoplayEmbedUrl(masterSource);
+            iframe.src = autoplayEmbedUrl(masterSource, true);
             iframe.title = video.getAttribute("aria-label") || "Project main video";
             iframe.allow = "autoplay; fullscreen; picture-in-picture";
             iframe.allowFullscreen = true;
@@ -875,7 +913,7 @@
           video.pause();
           video.classList.remove("is-ready");
           muteOtherAudibleMedia(video);
-          video.muted = !globalSoundEnabled;
+          video.muted = false;
           video.volume = .7;
           try {
             shell.dataset.playbackWidth = playbackType === "hls" ? "adaptive" : "local";
@@ -902,8 +940,7 @@
         playButton.addEventListener("click", event => {
           event.stopPropagation();
           if (video.paused) {
-            video.dataset.userPaused = "false";
-            video.play().catch(() => {});
+            playWithSound();
           } else {
             video.dataset.userPaused = "true";
             video.pause();
@@ -911,11 +948,8 @@
         });
         muteButton.addEventListener("click", event => {
           event.stopPropagation();
-          setGlobalSound(video.muted || !globalSoundEnabled);
-          video.muted = !globalSoundEnabled;
-          if (!video.muted) muteOtherAudibleMedia(video);
-          if (!video.muted && video.volume === 0) video.volume = .7;
-          video.play().catch(() => {});
+          setLeadSound(video, video.muted);
+          updateControls();
         });
         const seek = event => {
           event.stopPropagation();
@@ -937,13 +971,27 @@
         });
         shell.addEventListener("click", event => {
           if (!shell.classList.contains("player-active") || event.target.closest(".jdc-video-controls")) return;
-          if (video.paused) {
-            video.dataset.userPaused = "false";
-            video.play().catch(() => {});
-          } else {
-            video.dataset.userPaused = "true";
-            video.pause();
-          }
+          toggleFromVideoSurface();
+        });
+        shell.addEventListener("pointerleave", event => {
+          if (
+            event.pointerType === "touch" ||
+            !shell.classList.contains("player-active") ||
+            shell.classList.contains("player-embed")
+          ) return;
+          video.muted = true;
+          updateControls();
+        });
+        shell.addEventListener("pointerenter", event => {
+          if (
+            event.pointerType === "touch" ||
+            !shell.classList.contains("player-active") ||
+            shell.classList.contains("player-embed") ||
+            video.paused ||
+            video.dataset.localSoundEnabled === "false"
+          ) return;
+          setLeadSound(video, true);
+          updateControls();
         });
         ["play","pause","volumechange","timeupdate","loadedmetadata"].forEach(eventName => video.addEventListener(eventName, updateControls));
         updateControls();
