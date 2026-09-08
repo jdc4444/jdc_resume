@@ -8,14 +8,17 @@
   <title>Jos Diaz Contreras — Credits, Press &amp; Recognition</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@400;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@400;500;600&display=swap" rel="stylesheet">
   <script>try { if (localStorage.getItem('jdc-typeface') === 'raleway') document.documentElement.dataset.typeface = 'raleway'; } catch {}</script>
   <style>
     :root { --paper:#111; --ink:#f3f3ef; --muted:#73736e; --line:rgba(5,5,5,.2); --nav:rgba(243,243,239,.94); --underline:rgba(5,5,5,.38); --page:110rem; color-scheme:light; }
     * { box-sizing:border-box; }
     html { scroll-behavior:auto; }
     body { margin:0; background:var(--ink); color:var(--paper); font-family:Arial,Helvetica,sans-serif; line-height:1.4; -webkit-font-smoothing:antialiased; }
-    html[data-typeface="raleway"] body { font-family:Raleway,Arial,Helvetica,sans-serif; }
+    html[data-typeface="raleway"] body { font-family:Raleway,Arial,Helvetica,sans-serif; font-weight:500; }
+    html[data-typeface="raleway"] .section-label,
+    html[data-typeface="raleway"] .about-heading h1,
+    html[data-typeface="raleway"] h2 { font-weight:500; }
     html[data-typeface="raleway"] .jdc-video-controls button { font-family:Raleway,Arial,sans-serif; }
     .typeface-toggle { white-space:nowrap; }
     a { color:inherit; text-decoration-color:var(--underline); text-underline-offset:.22em; }
@@ -46,12 +49,8 @@
     .about-copy p { max-width:38em; margin:0 0 1.35em; font-size:clamp(1.08rem,1.35vw,1.55rem); letter-spacing:-.018em; line-height:1.3; }
     .about-copy p:last-child { margin-bottom:0; }
     .about-film-stage { min-width:0; padding:clamp(1.75rem,2.5vw,3rem); border-left:1px solid var(--line); }
-    .about-film-intro { width:min(100%,22rem); margin:0 auto clamp(1.1rem,1.6vw,1.75rem); }
-    .about-film-intro .section-label { margin-bottom:.45rem; }
-    .about-film-intro p { margin:0; color:var(--muted); font-size:.78rem; line-height:1.45; }
     .about-film { width:min(100%,22rem); margin:0 auto; }
     .about-film-frame { width:100%; --media-aspect:.5625; }
-    .about-film-caption { display:flex; justify-content:space-between; gap:1rem; margin-top:.7rem; color:var(--muted); font-size:.68rem; letter-spacing:.035em; text-transform:uppercase; }
     .project { border-top:1px solid var(--line); }
     .project-media { position:relative; width:100%; aspect-ratio:var(--project-aspect,16/9); overflow:hidden; background:var(--project-bg,#0a0a0a); cursor:pointer; }
     .project-media.player-active { aspect-ratio:var(--playback-aspect,var(--project-aspect,16/9)); }
@@ -123,7 +122,7 @@
       .project-heading, .about-heading { padding-right:0; }
       .project-body, .about-copy, .about-film-stage { border-left:0; }
       .about-copy, .about-film-stage { border-top:1px solid var(--line); }
-      .about-film-intro, .about-film { width:min(100%,26rem); }
+      .about-film { width:min(100%,26rem); }
       .credit-grid { grid-template-columns:repeat(2,minmax(0,1fr)); }
       .quotes { grid-template-columns:1fr; }
     }
@@ -146,8 +145,6 @@
       .sound-toggle { padding-left:.45rem; }
       .credit-grid { grid-template-columns:1fr; }
       .project-gallery, .project-gallery.gallery-images { grid-template-columns:1fr; }
-      .about-film-caption { display:block; }
-      .about-film-caption span { display:block; margin-top:.2rem; }
       .page-footer { flex-direction:column; }
     }
     @media (max-width:340px) {
@@ -205,16 +202,11 @@
             <p>On set, he works from inside the team—shaping performances, solving the picture with collaborators, and leaving room for discovery. That mix of creative ambition, production fluency, and editorial instinct has earned SXSW jury recognition, a D&amp;AD Pencil, and multiple Vimeo Staff Picks.</p>
           </div>
           <div class="about-film-stage">
-            <div class="about-film-intro">
-              <div class="section-label">In the work</div>
-              <p>A glimpse of the collaborative process behind Bon Iver’s “Day One.”</p>
-            </div>
             <figure class="about-film">
               <div class="gallery-frame gallery-feature-frame gallery-sound-frame about-film-frame" tabindex="0" aria-label="Bon Iver Day One behind-the-scenes film; hover or focus for sound" data-media-kind="video" data-media-id="bon-iver-day-one-bts" data-presentation="standalone" data-segment-index="1" data-segment-count="1" data-project-route="/about" data-project-title="About Jos Diaz Contreras">
-                <img class="loop-backdrop" src="media/project-galleries/website-videos/c1e56f2c-33a3-4fb1-b221-a7c964548622-poster.webp?v=1788077705529378462" alt="" aria-hidden="true" draggable="false">
-                <video class="gallery-video gallery-feature-player" muted autoplay playsinline preload="none" poster="media/project-galleries/website-videos/c1e56f2c-33a3-4fb1-b221-a7c964548622-poster.webp?v=1788077705529378462" data-src="https://github.com/jdc4444/jdc_resume/releases/download/media-1/b2f3de1860ad5c6e-c1e56f2c-33a3-4fb1-b221-a7c964548622.mp4?v=1787967744102384956&deliveryRevision=20260901-all-clips-1" aria-label="Bon Iver Day One behind-the-scenes film"></video>
+                <img class="loop-backdrop" src="media/project-galleries/website-videos/c1e56f2c-33a3-4fb1-b221-a7c964548622-about-start.webp?v=about-start-6875" alt="" aria-hidden="true" draggable="false">
+                <video class="gallery-video gallery-feature-player" muted autoplay playsinline preload="none" poster="media/project-galleries/website-videos/c1e56f2c-33a3-4fb1-b221-a7c964548622-about-start.webp?v=about-start-6875" data-src="https://github.com/jdc4444/jdc_resume/releases/download/media-1/b2f3de1860ad5c6e-c1e56f2c-33a3-4fb1-b221-a7c964548622.mp4?v=1787967744102384956&deliveryRevision=20260901-all-clips-1" data-loop-start="6.875" aria-label="Bon Iver Day One behind-the-scenes film"></video>
               </div>
-              <figcaption class="about-film-caption">Bon Iver — Day One <span>Behind-the-scenes film by Kylin Solano</span></figcaption>
             </figure>
           </div>
         </div>
@@ -459,6 +451,27 @@
       ensureLoopBackdrop(video);
       const state = { timer:null, restarting:false, wraps:0 };
       seamlessLoopStates.set(video, state);
+      const configuredLoopStart = Number(video.dataset.loopStart || 0);
+      const hasCustomLoopStart = Number.isFinite(configuredLoopStart) && configuredLoopStart > 0;
+      const loopStart = () => {
+        const maximum = Number.isFinite(video.duration) ? Math.max(.001, video.duration - .05) : configuredLoopStart;
+        return hasCustomLoopStart ? Math.min(configuredLoopStart, maximum) : .001;
+      };
+      const applyInitialLoopStart = () => {
+        if (!hasCustomLoopStart || video.dataset.loopStartApplied === "true") return;
+        if (!Number.isFinite(video.duration) || video.duration <= 0) return;
+        const target = loopStart();
+        video.dataset.loopStartApplied = "true";
+        video.classList.add("is-loop-resetting");
+        const revealInitialFrame = () => requestAnimationFrame(() => video.classList.remove("is-loop-resetting"));
+        if (Math.abs(video.currentTime - target) < .025) {
+          revealInitialFrame();
+          return;
+        }
+        video.addEventListener("seeked", revealInitialFrame, { once:true });
+        try { video.currentTime = target; }
+        catch (error) { video.classList.remove("is-loop-resetting"); }
+      };
       const loopEnabled = () => !(
         video.classList.contains("project-loop") &&
         video.closest(".project-media")?.classList.contains("player-active")
@@ -499,7 +512,7 @@
           revealAfterFrame();
         };
         video.addEventListener("seeked", afterSeek, { once:true });
-        try { video.currentTime = .001; }
+        try { video.currentTime = loopStart(); }
         catch (error) { reveal(); }
       };
       const schedule = () => {
@@ -523,6 +536,11 @@
         if (video.duration - video.currentTime <= lead) restart();
       });
       video.addEventListener("ended", restart);
+      if (hasCustomLoopStart) {
+        video.classList.add("is-loop-resetting");
+        if (video.readyState >= 1) applyInitialLoopStart();
+        else video.addEventListener("loadedmetadata", applyInitialLoopStart, { once:true });
+      }
       video.loop = false;
     }
     function destroyVideoSource(video) {
