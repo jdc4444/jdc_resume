@@ -34,7 +34,12 @@
     .about-heading h1 { max-width:14ch; margin:0; font-size:clamp(1.7rem,2.7vw,3.1rem); font-weight:500; letter-spacing:-.045em; line-height:.95; overflow-wrap:anywhere; }
     .about-copy { min-width:0; padding:clamp(1.75rem,2.8vw,3.5rem); border-left:1px solid var(--line); }
     .about-copy p { max-width:44em; margin:0 0 1.35em; font-size:clamp(.88rem,.94vw,1.02rem); letter-spacing:-.01em; line-height:1.46; }
-    .about-copy p:last-child { margin-bottom:0; }
+    .about-copy p:last-of-type { margin-bottom:0; }
+    .about-links { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:1rem 1.5rem; margin:clamp(2rem,3.2vw,3.25rem) 0 0; padding:1rem 0 0; border-top:1px solid var(--line); }
+    .about-link { display:flex; flex-direction:column; align-items:flex-start; gap:.18rem; min-width:0; text-decoration:none; }
+    .about-link-label { color:var(--muted); font-size:.62rem; letter-spacing:.075em; text-transform:uppercase; }
+    .about-link-value { max-width:100%; border-bottom:1px solid transparent; font-size:.82rem; overflow-wrap:anywhere; }
+    .about-link:hover .about-link-value, .about-link:focus-visible .about-link-value { border-bottom-color:currentColor; }
     .about-film-stage { min-width:0; padding:clamp(1.75rem,2.5vw,3rem); border-left:1px solid var(--line); }
     .about-film { width:min(100%,22rem); margin:0 auto; }
     .about-film-frame { width:100%; --media-aspect:.5625; }
@@ -123,6 +128,7 @@
     }
     @media (max-width:560px) {
       .topnav { display:grid; grid-template-columns:minmax(0,1fr) auto; align-items:start; gap:0; }
+      .about-links { grid-template-columns:1fr; }
       .nav-filters { gap:.35rem; }
       .nav-filters-left { grid-column:1 / -1; grid-row:1; width:100%; margin:0; padding:.45rem 0 .5rem; overscroll-behavior-inline:contain; scroll-snap-type:x proximity; }
       .nav-filters-left .filter-set { display:grid; grid-template-columns:repeat(4,max-content); grid-template-rows:auto auto; gap:.22rem 0; width:max-content; min-width:100%; }
@@ -182,6 +188,10 @@
             <p>Jos Diaz Contreras is a filmmaker and artist born in Mexico City. He came of age in New York, attending Stuyvesant High School before graduating from NYU in 2015. He co-founded Art Camp, an independent studio built around collaboration between filmmakers, animators, designers, musicians, and performers.</p>
             <p>His work moves between narrative film, documentary, music, animation, and commissioned projects. The films often begin with a performance, a place, or a small observed detail, then open outward into worlds shaped through photography, editing, sound, and design. He is interested in the point where intimate human gestures meet more constructed and technically complex forms.</p>
             <p>His films have received recognition from SXSW and D&amp;AD, along with multiple Vimeo Staff Picks. He remains based in Brooklyn, while regularly spending time and working in Athens, São Paulo, Copenhagen, and Los Angeles.</p>
+            <div class="about-links" aria-label="Contact">
+              <a class="about-link" href="https://instagram.com/josdiazcontreras" target="_blank" rel="noopener noreferrer"><span class="about-link-label">Instagram</span><span class="about-link-value">@josdiazcontreras</span></a>
+              <a class="about-link" href="mailto:jos@futuro.studio"><span class="about-link-label">Email</span><span class="about-link-value">jos@futuro.studio</span></a>
+            </div>
           </div>
           <div class="about-film-stage">
             <figure class="about-film">
