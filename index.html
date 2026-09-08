@@ -24,12 +24,6 @@
     .nav-filters-left { flex:1 1 auto; margin-right:auto; }
     .nav-filters-right { flex:0 0 auto; margin-left:auto; }
     .filter-set { display:flex; flex:0 0 auto; align-items:center; gap:.15rem; }
-    .sound-toggle { flex:0 0 auto; margin-left:0; padding-left:.8rem; border-left:1px solid var(--line); white-space:nowrap; }
-    .sound-toggle { width:2.25rem; height:1.9rem; display:grid; place-items:center; padding:.35rem .1rem .35rem .7rem; }
-    .sound-toggle svg { width:1.05rem; height:1.05rem; display:block; fill:none; stroke:currentColor; stroke-width:1.7; stroke-linecap:round; stroke-linejoin:round; }
-    .sound-toggle .sound-on-wave { opacity:0; }
-    .sound-toggle.active .sound-off-mark { opacity:0; }
-    .sound-toggle.active .sound-on-wave { opacity:1; }
     button { padding:.35rem .45rem; border:0; border-bottom:1px solid transparent; background:transparent; color:var(--muted); font:inherit; font-size:.64rem; letter-spacing:.06em; text-transform:uppercase; cursor:pointer; }
     button:hover, button:focus-visible, button.active { background:transparent; border-bottom-color:var(--paper); color:var(--paper); outline:none; }
     main { padding:0 clamp(1.25rem,2.2vw,2.75rem) 8rem; }
@@ -139,7 +133,6 @@
       .nav-filters-left [data-filter="editor"] { grid-column:4; grid-row:2; }
       .nav-filters-left button { padding:.4rem .25rem; scroll-snap-align:start; }
       .nav-filters-right { grid-column:2; grid-row:1; z-index:1; align-self:start; margin:0; padding:.45rem 0; background:var(--nav); }
-      .sound-toggle { padding-left:.45rem; }
       .credit-grid { grid-template-columns:1fr; }
       .project-gallery, .project-gallery.gallery-images { grid-template-columns:1fr; }
       .page-footer { flex-direction:column; }
@@ -174,13 +167,6 @@
       <div class="filter-set">
         <button type="button" data-filter="about">About</button>
       </div>
-      <button class="sound-toggle" id="soundToggle" type="button" aria-label="Turn sound on" aria-pressed="false" title="Turn sound on">
-        <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
-          <path d="M4 9v6h4l5 4V5L8 9H4z"></path>
-          <path class="sound-off-mark" d="m17 9 4 4m0-4-4 4"></path>
-          <path class="sound-on-wave" d="M16 8.5a5 5 0 0 1 0 7m2-9a8 8 0 0 1 0 11"></path>
-        </svg>
-      </button>
     </div>
   </nav>
   <div class="shell">
@@ -193,9 +179,9 @@
             <h1 id="aboutTitle">Jos Diaz Contreras</h1>
           </header>
           <div class="about-copy">
-            <p>Jos Diaz Contreras is a Brooklyn-based director, producer, and creative director working across live action, animation, documentary, music, and branded film. A hands-on editor as well as a production leader, he stays close to the work from the first idea through the final frame.</p>
-            <p>He builds interdisciplinary teams for artists and brands including Bon Iver, Thom Yorke, Mitski, Bright Eyes, Nike, Adidas, Spotify, HBO, Hulu, and Netflix. His practice moves between intimate performance and technically complex production without separating concept, people, and execution.</p>
-            <p>On set, he works from inside the team—shaping performances, solving the picture with collaborators, and leaving room for discovery. That mix of creative ambition, production fluency, and editorial instinct has earned SXSW jury recognition, a D&amp;AD Pencil, and multiple Vimeo Staff Picks.</p>
+            <p>Jos Diaz Contreras is a filmmaker and artist born in Mexico City. He came of age in New York, attending Stuyvesant High School before graduating from NYU in 2015. He co-founded Art Camp, an independent studio built around collaboration between filmmakers, animators, designers, musicians, and performers.</p>
+            <p>His work moves between narrative film, documentary, music, animation, and commissioned projects. The films often begin with a performance, a place, or a small observed detail, then open outward into worlds shaped through photography, editing, sound, and design. He is interested in the point where intimate human gestures meet more constructed and technically complex forms.</p>
+            <p>His films have received recognition from SXSW and D&amp;AD, along with multiple Vimeo Staff Picks. He remains based in Brooklyn, while regularly spending time and working in Athens, São Paulo, Copenhagen, and Los Angeles.</p>
           </div>
           <div class="about-film-stage">
             <figure class="about-film">
@@ -222,7 +208,6 @@
     const list = document.querySelector("#projectList");
     const aboutView = document.querySelector("#aboutView");
     const buttons = [...document.querySelectorAll("[data-filter]")];
-    const soundToggle = document.querySelector("#soundToggle");
     const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
     const hiddenRoutes = new Set([
       "/working-project-37",
@@ -845,13 +830,6 @@
     }
     function setGlobalSound(enabled) {
       globalSoundEnabled = Boolean(enabled);
-      soundToggle.classList.toggle("active", globalSoundEnabled);
-      soundToggle.setAttribute("aria-pressed", String(globalSoundEnabled));
-      soundToggle.setAttribute(
-        "aria-label",
-        globalSoundEnabled ? "Mute all media" : "Enable gallery sound"
-      );
-      soundToggle.title = globalSoundEnabled ? "Mute all media" : "Enable gallery sound";
       if (!globalSoundEnabled) {
         desiredGallerySoundVideo = null;
         document.querySelectorAll(".gallery-video").forEach(resetGallerySoundVideo);
@@ -1293,9 +1271,6 @@
       render();
       window.scrollTo({ top:0, left:0, behavior:"auto" });
     }));
-    soundToggle.addEventListener("click", () => {
-      setGlobalSound(!globalSoundEnabled);
-    });
     setGlobalSound(false);
     render();
   </script>
