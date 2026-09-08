@@ -1253,7 +1253,12 @@
       activateMedia();
     }
     buttons.forEach(button => button.addEventListener("click", () => {
-      currentFilter = button.dataset.filter;
+      const nextFilter = button.dataset.filter;
+      if (nextFilter === currentFilter) {
+        window.scrollTo({ top:0, left:0, behavior:"smooth" });
+        return;
+      }
+      currentFilter = nextFilter;
       buttons.forEach(item => item.classList.toggle("active", item === button));
       render();
       window.scrollTo({ top:0, left:0, behavior:"auto" });
