@@ -51,6 +51,8 @@
     .about-film-stage { min-width:0; padding:clamp(1.75rem,2.5vw,3rem); border-left:1px solid var(--line); }
     .about-film { width:min(100%,22rem); margin:0 auto; }
     .about-film-frame { width:100%; --media-aspect:.5625; }
+    .about-bts-gallery { width:min(100%,22rem); margin:.55rem auto 0; display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:.45rem; }
+    .about-bts-gallery .gallery-frame { --media-aspect:1.7777777778; }
     .project { border-top:1px solid var(--line); }
     .project-media { position:relative; width:100%; aspect-ratio:var(--project-aspect,16/9); overflow:hidden; background:var(--project-bg,#0a0a0a); cursor:pointer; }
     .project-media.player-active { aspect-ratio:var(--playback-aspect,var(--project-aspect,16/9)); }
@@ -122,7 +124,7 @@
       .project-heading, .about-heading { padding-right:0; }
       .project-body, .about-copy, .about-film-stage { border-left:0; }
       .about-copy, .about-film-stage { border-top:1px solid var(--line); }
-      .about-film { width:min(100%,26rem); }
+      .about-film, .about-bts-gallery { width:min(100%,26rem); }
       .credit-grid { grid-template-columns:repeat(2,minmax(0,1fr)); }
       .quotes { grid-template-columns:1fr; }
     }
@@ -208,6 +210,20 @@
                 <video class="gallery-video gallery-feature-player" muted autoplay playsinline preload="none" poster="media/project-galleries/website-videos/c1e56f2c-33a3-4fb1-b221-a7c964548622-about-start.webp?v=about-start-6875" data-src="https://github.com/jdc4444/jdc_resume/releases/download/media-1/b2f3de1860ad5c6e-c1e56f2c-33a3-4fb1-b221-a7c964548622.mp4?v=1787967744102384956&deliveryRevision=20260901-all-clips-1" data-loop-start="6.875" aria-label="Bon Iver Day One behind-the-scenes film"></video>
               </div>
             </figure>
+            <div class="about-bts-gallery" aria-label="Bombas behind-the-scenes moments">
+              <div class="gallery-frame gallery-sound-frame" tabindex="0" aria-label="Bombas behind-the-scenes slate moment; hover or focus for sound" data-media-kind="video" data-media-id="bombas-bts-ending" data-presentation="standalone" data-segment-index="1" data-segment-count="3" data-project-route="/about" data-project-title="About Jos Diaz Contreras">
+                <img class="loop-backdrop" src="media/project-galleries/about-page/bombas-bts-end-01-slate.webp?v=about-bombas-1" alt="" aria-hidden="true" draggable="false">
+                <video class="gallery-video" muted autoplay playsinline preload="none" poster="media/project-galleries/about-page/bombas-bts-end-01-slate.webp?v=about-bombas-1" data-src="media/project-galleries/about-page/bombas-bts-end-01-slate.mp4?v=about-bombas-1" aria-label="Bombas behind-the-scenes slate moment"></video>
+              </div>
+              <div class="gallery-frame gallery-sound-frame" tabindex="0" aria-label="Bombas behind-the-scenes group moment; hover or focus for sound" data-media-kind="video" data-media-id="bombas-bts-ending" data-presentation="standalone" data-segment-index="2" data-segment-count="3" data-project-route="/about" data-project-title="About Jos Diaz Contreras">
+                <img class="loop-backdrop" src="media/project-galleries/about-page/bombas-bts-end-02-group.webp?v=about-bombas-1" alt="" aria-hidden="true" draggable="false">
+                <video class="gallery-video" muted autoplay playsinline preload="none" poster="media/project-galleries/about-page/bombas-bts-end-02-group.webp?v=about-bombas-1" data-src="media/project-galleries/about-page/bombas-bts-end-02-group.mp4?v=about-bombas-1" aria-label="Bombas behind-the-scenes group moment"></video>
+              </div>
+              <div class="gallery-frame gallery-sound-frame" tabindex="0" aria-label="Bombas behind-the-scenes blue-set moment; hover or focus for sound" data-media-kind="video" data-media-id="bombas-bts-ending" data-presentation="standalone" data-segment-index="3" data-segment-count="3" data-project-route="/about" data-project-title="About Jos Diaz Contreras">
+                <img class="loop-backdrop" src="media/project-galleries/about-page/bombas-bts-end-03-clean-set.webp?v=about-bombas-1" alt="" aria-hidden="true" draggable="false">
+                <video class="gallery-video" muted autoplay playsinline preload="none" poster="media/project-galleries/about-page/bombas-bts-end-03-clean-set.webp?v=about-bombas-1" data-src="media/project-galleries/about-page/bombas-bts-end-03-clean-set.mp4?v=about-bombas-1" aria-label="Bombas behind-the-scenes blue-set moment"></video>
+              </div>
+            </div>
           </div>
         </div>
       </section>
@@ -447,7 +463,11 @@
       video.classList.remove("is-loop-resetting");
     }
     function prepareSeamlessLoop(video) {
-      if (seamlessLoopStates.has(video)) return;
+      const existingState = seamlessLoopStates.get(video);
+      if (existingState) {
+        existingState.resetToLoopStart?.();
+        return;
+      }
       ensureLoopBackdrop(video);
       const state = { timer:null, restarting:false, wraps:0 };
       seamlessLoopStates.set(video, state);
@@ -471,6 +491,11 @@
         video.addEventListener("seeked", revealInitialFrame, { once:true });
         try { video.currentTime = target; }
         catch (error) { video.classList.remove("is-loop-resetting"); }
+      };
+      state.resetToLoopStart = () => {
+        if (!hasCustomLoopStart) return;
+        video.dataset.loopStartApplied = "false";
+        applyInitialLoopStart();
       };
       const loopEnabled = () => !(
         video.classList.contains("project-loop") &&
