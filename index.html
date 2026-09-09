@@ -17,12 +17,13 @@
     a { color:inherit; text-decoration-color:var(--underline); text-underline-offset:.22em; }
     a:hover, a:focus-visible { opacity:.62; text-decoration-color:currentColor; }
     .shell { width:min(var(--page),100%); margin:0 auto; }
-    .topnav { position:sticky; z-index:50; top:0; display:flex; align-items:center; justify-content:space-between; gap:1rem; padding:0 clamp(1.25rem,2.2vw,2.75rem); background:var(--nav); border-bottom:0; backdrop-filter:blur(16px); }
+    .topnav { position:sticky; z-index:50; top:0; display:grid; grid-template-columns:minmax(0,1fr) auto minmax(0,1fr); align-items:center; gap:1rem; padding:0 clamp(1.25rem,2.2vw,2.75rem); background:var(--nav); border-bottom:0; backdrop-filter:blur(16px); }
     .section-label { font-size:.72rem; font-weight:500; letter-spacing:.09em; text-transform:uppercase; }
     .nav-filters { min-width:0; display:flex; flex:0 0 auto; align-items:center; gap:clamp(.6rem,1.2vw,1.2rem); padding:.62rem 0; overflow-x:auto; scrollbar-width:none; }
     .nav-filters::-webkit-scrollbar { display:none; }
-    .nav-filters-left { flex:1 1 auto; margin-right:auto; }
-    .nav-filters-right { flex:0 0 auto; margin-left:auto; }
+    .nav-brand { justify-self:start; }
+    .nav-filters-center { justify-self:center; max-width:100%; }
+    .nav-filters-right { justify-self:end; }
     .filter-set { display:flex; flex:0 0 auto; align-items:center; gap:.15rem; }
     button { padding:.35rem .45rem; border:0; border-bottom:1px solid transparent; background:transparent; color:var(--muted); font:inherit; font-size:.64rem; letter-spacing:.06em; text-transform:uppercase; cursor:pointer; }
     button:hover, button:focus-visible, button.active { background:transparent; border-bottom-color:var(--paper); color:var(--paper); outline:none; }
@@ -129,25 +130,20 @@
       .project-gallery.gallery-odd-over-three > .gallery-frame:nth-child(3) { display:none; }
     }
     @media (max-width:560px) {
-      .topnav { display:grid; grid-template-columns:minmax(0,1fr) auto; align-items:start; gap:0; }
+      .topnav { gap:0; }
       .about-links { grid-template-columns:1fr; }
       .nav-filters { gap:.35rem; }
-      .nav-filters-left { grid-column:1 / -1; grid-row:1; width:100%; margin:0; padding:.45rem 0 .5rem; overscroll-behavior-inline:contain; scroll-snap-type:x proximity; }
-      .nav-filters-left .filter-set { display:grid; grid-template-columns:repeat(4,max-content); grid-template-rows:auto auto; gap:.22rem 0; width:max-content; min-width:100%; }
-      .nav-filters-left [data-filter="all"] { grid-column:1; grid-row:1; justify-self:start; }
-      .nav-filters-left [data-filter="director"] { grid-column:1; grid-row:2; }
-      .nav-filters-left [data-filter="producer"] { grid-column:2; grid-row:2; }
-      .nav-filters-left [data-filter="creative"] { grid-column:3; grid-row:2; }
-      .nav-filters-left [data-filter="editor"] { grid-column:4; grid-row:2; }
-      .nav-filters-left button { padding:.4rem .25rem; scroll-snap-align:start; }
-      .nav-filters-right { grid-column:2; grid-row:1; z-index:1; align-self:start; margin:0; padding:.45rem 0; background:var(--nav); }
+      .nav-brand { grid-column:1; grid-row:1; padding:.45rem 0; }
+      .nav-filters-center { grid-column:1 / -1; grid-row:2; width:100%; justify-content:center; padding:0 0 .5rem; overscroll-behavior-inline:contain; scroll-snap-type:x proximity; }
+      .nav-filters-center button { padding:.4rem .25rem; scroll-snap-align:start; }
+      .nav-filters-right { grid-column:3; grid-row:1; padding:.45rem 0; }
       .credit-grid { grid-template-columns:1fr; }
       .project-gallery, .project-gallery.gallery-images { grid-template-columns:1fr; }
       .page-footer { flex-direction:column; }
     }
     @media (max-width:340px) {
-      .nav-filters-left button { padding-inline:.2rem; font-size:.6rem; }
-      .nav-filters-left [data-filter="creative"] { max-width:4.4rem; white-space:normal; line-height:1.05; }
+      .nav-filters-center button { padding-inline:.2rem; font-size:.6rem; }
+      .nav-filters-center [data-filter="creative"] { max-width:4.4rem; white-space:normal; line-height:1.05; }
     }
     @media print {
       .topnav { display:none; }
@@ -162,13 +158,15 @@
 </head>
 <body>
   <nav class="topnav" aria-label="Document navigation">
-    <div class="nav-filters nav-filters-left">
+    <div class="nav-filters nav-brand">
+      <button class="active" type="button" data-filter="all" title="Show all projects">JDC</button>
+    </div>
+    <div class="nav-filters nav-filters-center">
       <div class="filter-set" role="group" aria-label="Filter by Jos Diaz Contreras role">
-        <button class="active" type="button" data-filter="all" title="Show all projects">JDC</button>
         <button type="button" data-filter="director">Director</button>
         <button type="button" data-filter="producer">Producer</button>
         <button type="button" data-filter="creative">Creative Director</button>
-        <button type="button" data-filter="editor">Editor</button>
+        <button type="button" data-filter="editor" hidden>Editor</button>
       </div>
     </div>
     <div class="nav-filters nav-filters-right">
@@ -220,6 +218,7 @@
     const list = document.querySelector("#projectList");
     const aboutView = document.querySelector("#aboutView");
     const buttons = [...document.querySelectorAll("[data-filter]")];
+    document.querySelector('[data-filter="editor"]').hidden = location.pathname.replace(/\/+$/, '') !== '/editor';
     const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
     const hiddenRoutes = new Set([
       "/working-project-37",
