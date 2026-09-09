@@ -17,7 +17,7 @@
     a { color:inherit; text-decoration-color:var(--underline); text-underline-offset:.22em; }
     a:hover, a:focus-visible { opacity:.62; text-decoration-color:currentColor; }
     .shell { width:min(var(--page),100%); margin:0 auto; }
-    .topnav { position:sticky; z-index:50; top:0; display:flex; align-items:center; justify-content:space-between; gap:1rem; padding:0 clamp(1.25rem,2.2vw,2.75rem); background:var(--nav); border-bottom:1px solid var(--line); backdrop-filter:blur(16px); }
+    .topnav { position:sticky; z-index:50; top:0; display:flex; align-items:center; justify-content:space-between; gap:1rem; padding:0 clamp(1.25rem,2.2vw,2.75rem); background:var(--nav); border-bottom:0; backdrop-filter:blur(16px); }
     .section-label { font-size:.72rem; font-weight:500; letter-spacing:.09em; text-transform:uppercase; }
     .nav-filters { min-width:0; display:flex; flex:0 0 auto; align-items:center; gap:clamp(.6rem,1.2vw,1.2rem); padding:.62rem 0; overflow-x:auto; scrollbar-width:none; }
     .nav-filters::-webkit-scrollbar { display:none; }
@@ -26,6 +26,8 @@
     .filter-set { display:flex; flex:0 0 auto; align-items:center; gap:.15rem; }
     button { padding:.35rem .45rem; border:0; border-bottom:1px solid transparent; background:transparent; color:var(--muted); font:inherit; font-size:.64rem; letter-spacing:.06em; text-transform:uppercase; cursor:pointer; }
     button:hover, button:focus-visible, button.active { background:transparent; border-bottom-color:var(--paper); color:var(--paper); outline:none; }
+    .topnav button[data-filter="all"] { border-bottom:0; text-decoration:none; font-size:.9rem; font-weight:500; letter-spacing:.06em; color:var(--paper); }
+    .topnav button[data-filter="all"]:focus-visible { outline:1px dotted currentColor; outline-offset:2px; }
     main { padding:0 clamp(1.25rem,2.2vw,2.75rem) 8rem; }
     .about-view { border-top:1px solid var(--line); }
     .about-layout { display:grid; grid-template-columns:minmax(16rem,32%) minmax(23rem,42%) minmax(14rem,26%); min-height:calc(100vh - 3.2rem); }
