@@ -171,7 +171,7 @@
     </div>
     <div class="nav-filters nav-filters-right">
       <div class="filter-set">
-        <button type="button" data-filter="about">About</button>
+        <button type="button" data-filter="about" aria-controls="aboutView" aria-expanded="false">About</button>
       </div>
     </div>
   </nav>
@@ -227,6 +227,8 @@
     ]);
     let mediaObserver;
     let currentFilter = "all";
+    let filterBeforeAbout = "all";
+    let scrollBeforeAbout = 0;
     let globalSoundEnabled = false;
     const escapeHTML = value => String(value ?? "").replaceAll("&","&amp;").replaceAll("<","&lt;").replaceAll(">","&gt;").replaceAll('"',"&quot;").replaceAll("'","&#039;");
     const renderProjectTitle = value => escapeHTML(value).replace(/ ([–—]) /g, " $1<br>");
@@ -1169,6 +1171,7 @@
     }
     function render() {
       const showingAbout = currentFilter === "about";
+      document.querySelector('[data-filter="about"]').setAttribute("aria-expanded", String(showingAbout));
       teardownMedia();
       aboutView.hidden = !showingAbout;
       list.hidden = showingAbout;
@@ -1277,15 +1280,20 @@
       activateMedia();
     }
     buttons.forEach(button => button.addEventListener("click", () => {
-      const nextFilter = button.dataset.filter;
+      const closingAbout = button.dataset.filter === "about" && currentFilter === "about";
+      const nextFilter = closingAbout ? filterBeforeAbout : button.dataset.filter;
       if (nextFilter === currentFilter) {
-        window.scrollTo({ top:0, left:0, behavior:"smooth" });
+        window.scrollTo({ top:0, left:0, behavior:reduceMotion.matches ? "auto" : "smooth" });
         return;
       }
+      if (nextFilter === "about") {
+        filterBeforeAbout = currentFilter;
+        scrollBeforeAbout = window.scrollY;
+      }
       currentFilter = nextFilter;
-      buttons.forEach(item => item.classList.toggle("active", item === button));
+      buttons.forEach(item => item.classList.toggle("active", item.dataset.filter === currentFilter));
       render();
-      window.scrollTo({ top:0, left:0, behavior:"auto" });
+      window.scrollTo({ top:closingAbout ? scrollBeforeAbout : 0, left:0, behavior:"auto" });
     }));
     setGlobalSound(false);
     render();
